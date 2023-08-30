@@ -1,8 +1,12 @@
 #include <Arduino.h>
+
 #include "WiFiMulti.h"
 #include "WiFiClientSecure.h"
+// #include "WiFiUDP.h"
+
 #include "WakeOnLan.h"
 #include "UniversalTelegramBot.h"
+#include "ArduinoJson.h"
 
 #include <FastLED.h>
 #include "ledEffects.h"
@@ -15,20 +19,32 @@
 #define WIFI_SSID "dd-wrt 10"
 #define WIFI_PASS "3qs#73izv449"
 
-#define BOT_MTBS 1000 // mean time between scan messages
 
 // MAC addresses of the target devices
-const char* MAC_ADDR_1 = "18:c0:4d:35:4d:bd";
-const char* MAC_ADDR_2 = "cc:96:e5:0b:ab:01";
+// const char* MAC_ADDR_1 = "18:c0:4d:35:4d:bd";
+// const char* MAC_ADDR_2 = "cc:96:e5:0b:ab:01";
+#define MAC_ADDR_1 "18:c0:4d:35:4d:bd"
+#define MAC_ADDR_2 "cc:96:e5:0b:ab:01"
+
 
 // Define the array of LEDs
 CRGB leds[NUM_LEDS];
 
+// WiFiMulti wifiMulti;
+// WiFiClientSecure secured_client;
+// WiFiUDP udpClient1, udpClient2; // Separate UDP clients for each WOL instance
 WiFiMulti wifiMulti;
 WiFiClientSecure secured_client;
-WiFiUDP udpClient1, udpClient2; // Separate UDP clients for each WOL instance
+WiFiUDP UDP;
+WakeOnLan WOL(UDP);
+
+// #define BOT_MTBS 1000 // mean time between scan messages
+// UniversalTelegramBot bot(BOT_TOKEN, secured_client);
+// unsigned long bot_lasttime = 0; // last time messages' scan has been done
+const unsigned long BOT_MTBS = 1000; // mean time between scan messages
 UniversalTelegramBot bot(BOT_TOKEN, secured_client);
-unsigned long bot_lasttime = 0; // last time messages' scan has been done
+unsigned long bot_lasttime; // last time messages' scan has been done
+
 
 void sendWOL(WiFiUDP &udpClient, const char *macAddress) {
   udpClient.beginPacket(IPAddress(255, 255, 255, 255), 9);
@@ -77,12 +93,14 @@ void handleNewMessages(int numNewMessages) {
       bot.sendMessage(chat_id, help, "Markdown");
     }
     else if (text == "/wol_3070") {
-      sendWOL(udpClient1, MAC_ADDR_1);
+      // sendWOL(udpClient1, MAC_ADDR_1);
+      WOL.sendMagicPacket(MAC_ADDR_1);
       wolActiveEffect();
       bot.sendMessage(chat_id, "Magic Packet sent to amd3070!", "");
     }
     else if (text == "/wol_3090") {
-      sendWOL(udpClient2, MAC_ADDR_2);
+      // sendWOL(udpClient2, MAC_ADDR_2);
+      WOL.sendMagicPacket(MAC_ADDR_2);
       wolActiveEffect();
       bot.sendMessage(chat_id, "Magic Packet sent to intel3090!", "");
     }

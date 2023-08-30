@@ -11,15 +11,16 @@ void bootUpEffect() {
     for (int i = 0; i < NUM_LEDS; i++) {
         leds[i] = CRGB::White;
         FastLED.show();
-        delay(100); // Adjust the delay time to your preference
+        delay(200); // Adjust the delay time to your preference
     }
 
-    // Turn off LEDs one by one
-    for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = CRGB::Black;
-        FastLED.show();
-        delay(100); // Adjust the delay time to your preference
-    }
+    // // Turn off LEDs one by one
+    // for (int i = 0; i < NUM_LEDS; i++) {
+    //     leds[i] = CRGB::Black;
+    //     FastLED.show();
+    //     delay(200); // Adjust the delay time to your preference
+    // }
+    allOff();
 
     delay(100);
 
