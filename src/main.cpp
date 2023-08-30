@@ -57,48 +57,48 @@ void handleNewMessages(int numNewMessages) {
     if (from_name == "") from_name = "Guest";
 
     if (text == "/ping") {
-      bot.sendMessage(chat_id, "Pong!", "");
+      bot.sendMessage(chat_id, "pong", "");
     } 
     else if (text == "/start") {
       String welcome = "Welcome to **WoL Bot**, " + from_name + ".\n";
-      welcome += "Use is restricted to the bot owner.\n\n";
+      welcome += "*Use is restricted to the bot owner.*\n\n";
       welcome += "Use /help for more commands\n";
       bot.sendMessage(chat_id, welcome, "Markdown");
     }
     else if (text == "/help") {
-      String help = "/help menu: \n\n";
+      String help = "Help Menu: \n";
       help += "/ping : Check the bot status\n";
-      help += "/wol3070 : Send the Magic Packet to amd3070 machine\n";
-      help += "/wol3090 : Send the Magic Packet to intel3090 machine\n";
-      help += "/ledChase : Send LED Color Chase Effect\n";
-      help += "/ledBreath : Send LED Breathing Effect\n";
-      help += "/ledknight : Send LED KnightRider Effect\n";
-      help += "/ledRainbow : Send LED Rainbow Effect\n";
+      help += "/wol\\_3070 : Wakeup amd3070\n";
+      help += "/wol\\_3090 : Wakeup intel3090\n";
+      help += "/led\\_chase : Send LED Color Chase Effect\n";
+      help += "/led\\_breath : Send LED Breathing Effect\n";
+      help += "/led\\_knight : Send LED Knight Rider Effect\n";
+      help += "/led\\_rainbow : Send LED Rainbow Effect\n";
       bot.sendMessage(chat_id, help, "Markdown");
     }
-    else if (text == "/wol3070") {
+    else if (text == "/wol_3070") {
       sendWOL(udpClient1, MAC_ADDR_1);
       wolActiveEffect();
       bot.sendMessage(chat_id, "Magic Packet sent to amd3070!", "");
     }
-    else if (text == "/wol3090") {
+    else if (text == "/wol_3090") {
       sendWOL(udpClient2, MAC_ADDR_2);
       wolActiveEffect();
       bot.sendMessage(chat_id, "Magic Packet sent to intel3090!", "");
     }
-    else if (text == "/ledChase") {
+    else if (text == "/led_chase") {
       colorChaseEffect();
       bot.sendMessage(bot.messages[i].chat_id, "Starting LED Color Chase Effect!", "");
     }
-    else if (text == "/ledBreath") {
+    else if (text == "/led_breath") {
       breathingEffect();
       bot.sendMessage(bot.messages[i].chat_id, "Starting LED Breathing Effect!", "");
     }
-    else if (text == "/ledKnigh") {
+    else if (text == "/led_knight") {
       knightRiderEffect();
       bot.sendMessage(bot.messages[i].chat_id, "Starting LED Knight Rider KITT Effect!", "");
     }
-    else if (text == "/ledRainbow") {
+    else if (text == "/led_rainbow") {
       rainbowEffect();
       bot.sendMessage(bot.messages[i].chat_id, "Starting LED Rainbow Effect!", "");
     }
