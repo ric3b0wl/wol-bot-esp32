@@ -30,6 +30,8 @@
 // Define the array of LEDs
 CRGB leds[NUM_LEDS];
 
+bool policeLightsOn = false;
+
 // WiFiMulti wifiMulti;
 // WiFiClientSecure secured_client;
 // WiFiUDP udpClient1, udpClient2; // Separate UDP clients for each WOL instance
@@ -90,37 +92,53 @@ void handleNewMessages(int numNewMessages) {
       help += "/led\\_breath : Send LED Breathing Effect\n";
       help += "/led\\_knight : Send LED Knight Rider Effect\n";
       help += "/led\\_rainbow : Send LED Rainbow Effect\n";
+      help += "/led\\_police : Send LED Police Light Effect\n";
+      help += "/led\\_policeon : Turn Police Light Effect ON\n";
+      help += "/led\\_policeoff : Turn Police Light Effect OFF\n";
       bot.sendMessage(chat_id, help, "Markdown");
     }
     else if (text == "/wol_3070") {
       // sendWOL(udpClient1, MAC_ADDR_1);
       WOL.sendMagicPacket(MAC_ADDR_1);
-      wolActiveEffect();
       bot.sendMessage(chat_id, "Magic Packet sent to amd3070!", "");
+      wolActiveEffect();
     }
     else if (text == "/wol_3090") {
       // sendWOL(udpClient2, MAC_ADDR_2);
       WOL.sendMagicPacket(MAC_ADDR_2);
-      wolActiveEffect();
       bot.sendMessage(chat_id, "Magic Packet sent to intel3090!", "");
+      wolActiveEffect();
     }
     else if (text == "/led_chase") {
+      bot.sendMessage(bot.messages[i].chat_id, "Starting Color Chase Effect!", "");
       colorChaseEffect();
-      bot.sendMessage(bot.messages[i].chat_id, "Starting LED Color Chase Effect!", "");
     }
     else if (text == "/led_breath") {
+      bot.sendMessage(bot.messages[i].chat_id, "Starting Breathing Effect!", "");
       breathingEffect();
-      bot.sendMessage(bot.messages[i].chat_id, "Starting LED Breathing Effect!", "");
     }
     else if (text == "/led_knight") {
+      bot.sendMessage(bot.messages[i].chat_id, "Starting Knight Rider KITT Effect!", "");
       knightRiderEffect();
-      bot.sendMessage(bot.messages[i].chat_id, "Starting LED Knight Rider KITT Effect!", "");
     }
     else if (text == "/led_rainbow") {
+      bot.sendMessage(bot.messages[i].chat_id, "Starting Rainbow Effect!", "");
       rainbowEffect();
-      bot.sendMessage(bot.messages[i].chat_id, "Starting LED Rainbow Effect!", "");
     }
+    // else if (text == "/led_police") {
+    //   bot.sendMessage(bot.messages[i].chat_id, "Starting Police Light Effect!", "");
+    //   policeLightEffect();
+    // }
+    // else if (text == "/led_policeon") {
+    //   bot.sendMessage(bot.messages[i].chat_id, "Turn Police Light Effect ON!", "");
+    //   turnPoliceLightsOn();
+    // }
+    // else if (text == "/led_policeoff") {
+    //   bot.sendMessage(bot.messages[i].chat_id, "Turn Police Light Effect OFF!", "");
+    //   turnPoliceLightsOff();
+    // }
     else {
+      allOff();
       bot.sendMessage(chat_id, "Invalid input, check /help!", "");
     }
   }
@@ -151,6 +169,7 @@ void setup() {
 }
 
 void loop() {
+  
   if (millis() - bot_lasttime > BOT_MTBS) {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
     if (numNewMessages > 0) {
@@ -159,5 +178,9 @@ void loop() {
     }
     bot_lasttime = millis();
   }
+
+  // if (policeLightsOn) {
+  //   policeLightEffect();  // If police lights are on, run the effect
+  // }
 
 }

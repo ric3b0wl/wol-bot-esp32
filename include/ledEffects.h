@@ -11,6 +11,7 @@
 
 // Define the array of LEDs
 extern CRGB leds[NUM_LEDS];
+// extern bool policeLightsOn;  // Flag to track if police lights are on
 
 void allOff();
 void bootUpEffect();
@@ -20,5 +21,8 @@ void breathingEffect();
 void knightRiderEffect();
 void rainbowEffect();
 
+// void policeLightEffect();
+// void turnPoliceLightsOn();
+// void turnPoliceLightsOff();
 
 #endif

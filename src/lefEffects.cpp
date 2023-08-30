@@ -27,7 +27,7 @@ void bootUpEffect() {
     for (int cycle = 0; cycle < 1; cycle++) {
         for (int blink = 0; blink < 2; blink++) { // Blink twice
             for (int i = 0; i < NUM_LEDS; i++) {
-                leds[i] = CRGB::White; // Turn on LED with its color
+                leds[i] = CRGB::SeaGreen; // Turn on LED with its color
             }
            
             FastLED.show();
@@ -79,7 +79,7 @@ void colorChaseEffect() {
         for (int i = 0; i < NUM_LEDS; i++) {
             leds[i] = colors[i]; // Turn on the current LED
             FastLED.show();
-            delay(50); // Adjust the delay time to your preference
+            delay(100); // Adjust the delay time to your preference
             leds[i] = CRGB::Black; // Turn off the current LED
         }
 
@@ -92,7 +92,7 @@ void colorChaseEffect() {
 
 void breathingEffect() {
     int brightness = 0;
-    int increment = 5;
+    int increment = 3;
 
     for (int cycle = 0; cycle < 4; cycle++) { // Number of cycles
         while (brightness <= 255) {
@@ -100,7 +100,7 @@ void breathingEffect() {
             leds[i] = CRGB(brightness, 0, 0); // Set brightness for all LEDs
         }
         FastLED.show();
-        delay(20); // Adjust the delay time to control the breathing speed
+        delay(50); // Adjust the delay time to control the breathing speed
         brightness += increment;
         }
         
@@ -109,7 +109,7 @@ void breathingEffect() {
             leds[i] = CRGB(brightness, 0, 0); // Set brightness for all LEDs
         }
         FastLED.show();
-        delay(20); // Adjust the delay time to control the breathing speed
+        delay(50); // Adjust the delay time to control the breathing speed
         brightness -= increment;
         }
 
@@ -121,45 +121,23 @@ void breathingEffect() {
 }
 
 void knightRiderEffect() {
-    int eyeSize = 3; // Number of LEDs in the "eye"
-
-    for (int cycle = 0; cycle < 4; cycle++) { // Number of cycles
-        for (int i = 0; i < NUM_LEDS - eyeSize + 1; i++) {
-            // Turn on the "eye"
-            for (int j = 0; j < eyeSize; j++) {
-                leds[i + j] = CRGB::Red;
-            }
-
-        FastLED.show();
-        delay(50); // Adjust the delay time to your preference
-
-        // Turn off the "eye"
-        for (int j = 0; j < eyeSize; j++) {
-            leds[i + j] = CRGB::Black;
-            }
-        }
-
-        // Backward sweep
-        for (int i = NUM_LEDS - eyeSize; i >= 0; i--) {
-            // Turn on the "eye"
-            for (int j = 0; j < eyeSize; j++) {
-                leds[i + j] = CRGB::Red;
-            }
-
-            FastLED.show();
-            delay(50); // Adjust the delay time to your preference
-
-            // Turn off the "eye"
-            for (int j = 0; j < eyeSize; j++) {
-                leds[i + j] = CRGB::Black;
-            }
-        }
-
-        // Delay before the next cycle
-        // delay(100); // Adjust the delay time between cycles to your preference
+  for (int i = 0; i < 6; i++) {
+    for (int pos = 0; pos < NUM_LEDS; pos++) {
+      FastLED.clear();
+      leds[pos] = CRGB::DarkRed;
+      FastLED.show();
+      delay(120);
     }
 
-    allOff();
+    for (int pos = NUM_LEDS - 1; pos >= 0; pos--) {
+      FastLED.clear();
+      leds[pos] = CRGB::DarkRed;
+      FastLED.show();
+      delay(120);
+    }
+  }
+
+  allOff();
 }
 
 void rainbowEffect() {
@@ -181,3 +159,43 @@ void rainbowEffect() {
   
   allOff();
 }
+
+// extern bool policeLightsOn;  // Flag to track if police lights are on
+
+// // Police light effect function
+// void policeLightEffect() {
+//   while (policeLightsOn) {
+//     for (int i = 0; i < NUM_LEDS; i++) {
+//       leds[i] = CRGB::Red;    // Set red LED
+//       FastLED.show();
+//     }
+//     delay(100);
+
+//     for (int i = 0; i < NUM_LEDS; i++) {
+//       leds[i] = CRGB::Blue;  // Set blue LED
+//       FastLED.show();
+//     }
+//     delay(100);
+//   }
+  
+//   // Turn off all LEDs when effect is turned off
+//   for (int i = 0; i < NUM_LEDS; i++) {
+//     leds[i] = CRGB::Black;
+//   }
+//   FastLED.show();
+// }
+
+// // Function to turn police LED effect on
+// void turnPoliceLightsOn() {
+//   policeLightsOn = true;
+// }
+
+// // Function to turn police LED effect off
+// void turnPoliceLightsOff() {
+//   policeLightsOn = false;
+//   // Turn off all LEDs
+//   for (int i = 0; i < NUM_LEDS; i++) {
+//     leds[i] = CRGB::Black;
+//   }
+//   FastLED.show();
+// }
