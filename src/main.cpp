@@ -19,12 +19,15 @@
 #define WIFI_SSID "dd-wrt 10"
 #define WIFI_PASS "3qs#73izv449"
 
-
 // MAC addresses of the target devices
 // const char* MAC_ADDR_1 = "18:c0:4d:35:4d:bd";
 // const char* MAC_ADDR_2 = "cc:96:e5:0b:ab:01";
 #define MAC_ADDR_1 "18:c0:4d:35:4d:bd"
 #define MAC_ADDR_2 "cc:96:e5:0b:ab:01"
+
+// GPIO button for manual trigger
+#define BUTTON_PIN_3070 16 // Button for 3070
+#define BUTTON_PIN_3090 19 // Button for 3090
 
 
 // Define the array of LEDs
@@ -163,6 +166,8 @@ void setup() {
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS); // Initialize FastLED
   bootUpEffect();
 
+  pinMode(BUTTON_PIN_3070, INPUT_PULLUP); // Initialize button for 3070
+  pinMode(BUTTON_PIN_3090, INPUT_PULLUP); // Initialize button for 3090
   // ... NTP setup ...
 
   bot_lasttime = millis();
@@ -177,6 +182,20 @@ void loop() {
       handleNewMessages(numNewMessages);
     }
     bot_lasttime = millis();
+  }
+
+  if (digitalRead(BUTTON_PIN_3070) == LOW) { // Check if button for 3070 is pressed
+    WOL.sendMagicPacket(MAC_ADDR_1); // Send WoL for 3070
+    Serial.println("Button pressed: WoL Packet sent to 3070");
+    wolActiveEffect();
+    delay(500); // Debounce delay
+  }
+
+  if (digitalRead(BUTTON_PIN_3090) == LOW) { // Check if button for 3090 is pressed
+    WOL.sendMagicPacket(MAC_ADDR_2); // Send WoL for 3090
+    Serial.println("Button pressed: WoL Packet sent to 3090");
+    wolActiveEffect();
+    delay(500); // Debounce delay
   }
 
   // if (policeLightsOn) {
